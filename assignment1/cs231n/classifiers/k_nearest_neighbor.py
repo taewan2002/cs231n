@@ -66,7 +66,7 @@ class KNearestNeighbor(object):
         """
         num_test = X.shape[0]
         num_train = self.X_train.shape[0]
-        dists = np.zeros((num_test, num_train))
+        dists = np.zeros((num_test, num_train)) # 0으로 체워진 array 생성
         for i in range(num_test):
             for j in range(num_train):
                 #####################################################################
@@ -76,7 +76,12 @@ class KNearestNeighbor(object):
                 # not use a loop over dimension, nor use np.linalg.norm().          #
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+                # 유클리드 거리 구하는 법
+                # np.square() : 제곱
+                # np.sum() : 합
+                # np.sqrt() : 제곱근
+                dists[i, j] = np.sqrt(np.sum(np.square(X[i] - self.X_train[j])))
+                # dists[i, j] = np.linalg.norm(X[i] - self.X_train[j]) # 위의 식과 같은 결과
                 pass
 
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -164,6 +169,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+            # dists[i].argsort()[:k] : i번째 테스트 데이터와 가까운 k개의 훈련 데이터의 인덱스
+            closest_y = self.y_train[np.argsort(dists[i])[:k]]
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -176,6 +183,9 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+            # np.bincount() : 각 숫자가 몇 번 나왔는지 세어줌
+            # np.argmax() : 가장 큰 값의 인덱스를 반환
+            y_pred[i] = np.argmax(np.bincount(closest_y))
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
