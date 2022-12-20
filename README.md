@@ -38,3 +38,5 @@
 
 11. Transfer Learning and Fine-tuning Convolutional Neural Networks
     - https://cs231n.github.io/transfer-learning/
+
+- http://aikorea.org/cs231n/
