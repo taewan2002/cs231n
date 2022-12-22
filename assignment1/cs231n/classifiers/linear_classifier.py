@@ -66,6 +66,14 @@ class LinearClassifier(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+            # 교차 검증을 위한 데이터 샘플링
+            idx = np.random.choice(num_train, batch_size, replace=True)
+            X_batch = X[idx]
+            y_batch = y[idx]
+
+            # X_batch = X[np.random.choice(num_train, batch_size, replace=True)]
+            # y_batch = y[np.random.choice(num_train, batch_size, replace=True)]
+
             pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -80,6 +88,9 @@ class LinearClassifier(object):
             # Update the weights using the gradient and the learning rate.          #
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+            # 경사하강법을 통한 가중치 업데이트
+            self.W -= learning_rate * grad
 
             pass
 
@@ -111,6 +122,8 @@ class LinearClassifier(object):
         ###########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+        # 가중치와 데이터를 곱한 후, 가장 큰 값의 인덱스를 예측값으로 저장
+        y_pred = np.argmax(X.dot(self.W), axis=1)
         pass
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
