@@ -55,6 +55,8 @@ def svm_loss_naive(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+    # dW는 W의 shape과 같은 크기의 0으로 채워진 행렬이다.
+    dW += 2 * reg * W # regularization gradient
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -78,6 +80,14 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+    scores = X @ W
+    x = np.arange(X.shape[0])
+    margins = np.maximum(0, (scores.T - scores[x, y]).T + 1)
+    margins[x, y] = 0
+    indicator = (margins > 0).astype(float)
+    indicator_sum = np.sum(indicator, axis=1)
+    indicator[x, y] -= indicator_sum[x]
+    loss = np.sum(margins) / X.shape[0] + reg * np.sum(W * W)
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -93,6 +103,8 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+    dW += (X.T @ indicator) / X.shape[0]
+    dW += 2 * reg * W
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
